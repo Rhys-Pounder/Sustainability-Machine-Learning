@@ -15,7 +15,7 @@ class WhiteBoxModel(nn.Module):
         return self.linear(x)
 
 def train_model():
-    X, y, feature_names = get_prepared_data()
+    X, y, feature_names, df = get_prepared_data()
     
     input_dim = X.shape[1]
     model = WhiteBoxModel(input_dim)
@@ -45,6 +45,38 @@ def train_model():
     for name, weight in zip(feature_names, weights):
         print(f"Feature: {name:20} Weight: {weight:.4f}")
     print(f"Bias                 Weight: {bias:.4f}")
+
+    print("\n--- Generating Human-Readable Reasoning Logs ---")
+    # Generate a reasoning log for the first few companies
+    for i in range(3):
+        company = df.iloc[i]['Company']
+        focus = df.iloc[i]['focus']
+        actual_score = df.iloc[i]['sustainability_score']
+        
+        # Get feature values and prediction for this specific instance
+        feature_vals = X[i].numpy()
+        predicted_score = model(X[i]).item() * 100 # Scale back to 0-100 for readability
+        
+        print(f"Reasoning Log for {company}:")
+        print(f"Claim: '{focus}'")
+        print(f"Predicted Score: {predicted_score:.1f}/100 (Actual: {actual_score})")
+        print("Verdict Breakdown:")
+        
+        # Explain the prediction based on feature values and weights
+        for name, val, weight in zip(feature_names, feature_vals, weights):
+            impact = val * weight * 100 
+            direction = "increased" if impact > 0 else "decreased"
+            # Making it human readable based on the feature
+            if name == "target_year":
+                print(f"  - Target setting impact: {direction} the score by {abs(impact):.1f} points.")
+            elif name == "focus_type":
+                print(f"  - Claim type impact: {direction} the score by {abs(impact):.1f} points.")
+            else:
+                print(f"  - The feature '{name}' {direction} the score by {abs(impact):.1f} points.")
+                
+        base_score = bias * 100
+        print(f"  - Base starting score (bias): {base_score:.1f} points.")
+        print("-" * 50)
 
 if __name__ == "__main__":
     train_model()

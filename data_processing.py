@@ -54,9 +54,9 @@ def get_prepared_data():
     X_tensor = torch.tensor(df_encoded[X_columns].values, dtype=torch.float32)
     y_tensor = torch.tensor(df_encoded[y_column].values, dtype=torch.float32).unsqueeze(1)
 
-    return X_tensor, y_tensor, X_columns
+    return X_tensor, y_tensor, X_columns, df
 
 if __name__ == "__main__":
-    X, y, cols = get_prepared_data()
+    X, y, cols, df = get_prepared_data()
     print("Data Preprocessing Ready.")
 
