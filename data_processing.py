@@ -3,10 +3,34 @@ import torch
 
 def get_prepared_data():
     df = pd.DataFrame({
-        "Company": ["Microsoft", "Apple", "Klarna", "Tesla", "Amazon"],
-        "reporting_year": [2024, 2024, 2024, 2024, 2024],
-        "focus": ["Carbon Negative 2030", "Carbon Neutral 2030", "Carbon Neutral 2040", "Carbon Negative 2040", "Carbon Neutral 2050"],
-        "sustainability_score": [95, 90, 85, 90, 80],
+        "Company": [
+            "Stripe", "Square", "Revolut", "Monzo", "Chime", 
+            "N26", "Starling Bank", "PayPal", "Wise", "SoFi",
+            "Klarna", "JPMorgan Chase", "Citibank", "Barclays", "HSBC"
+        ],
+        "reporting_year": [2024] * 15,
+        "focus": [
+            "Carbon Negative 2025", 
+            "Carbon Neutral 2025", 
+            "Carbon Negative 2030", 
+            "Carbon Neutral 2030", 
+            "Carbon Negative 2035", 
+            "Carbon Neutral 2035", 
+            "Carbon Negative 2040", 
+            "Carbon Neutral 2040", 
+            "Carbon Negative 2045", 
+            "Carbon Neutral 2045",
+            "Carbon Neutral 2030",
+            "Carbon Negative 2050",
+            "Carbon Neutral 2050",
+            "Carbon Negative 2030",
+            "Carbon Neutral 2035"
+        ],
+        "sustainability_score": [
+            99, 95, 96, 92, 93, 
+            89, 90, 86, 87, 83,
+            92, 84, 80, 96, 89
+        ],
     })
 
     df_encoded = df.copy()
