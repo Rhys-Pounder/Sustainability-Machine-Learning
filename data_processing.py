@@ -24,7 +24,7 @@ def get_prepared_data():
     df_encoded['target_year'] = (df_encoded['target_year'] - 2024) / 10.0
     df_encoded['sustainability_score'] = df_encoded['sustainability_score'] / 100.0 
 
-    X_columns = ['Company', 'reporting_year', 'focus_type', 'target_year']
+    X_columns = ['focus_type', 'target_year']
     y_column = 'sustainability_score'
 
     X_tensor = torch.tensor(df_encoded[X_columns].values, dtype=torch.float32)
